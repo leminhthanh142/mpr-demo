@@ -30,7 +30,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -57,17 +56,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // This codelab uses View Binding
-        // See: https://developer.android.com/topic/libraries/view-binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // When running in debug mode, connect to the Firebase Emulator Suite
-        // "10.0.2.2" is a special value which allows the Android emulator to
-        // connect to "localhost" on the host computer. The port values are
-        // defined in the firebase.json file.
-
-        // Initialize Firebase Auth and check if the user is signed in
         auth = Firebase.auth
         if (auth.currentUser == null) {
             // Not signed in, launch the Sign In activity
@@ -81,7 +72,6 @@ class MainActivity : AppCompatActivity() {
         val messagesRef = db.reference.child(MESSAGES_CHILD)
 
         // The FirebaseRecyclerAdapter class and options come from the FirebaseUI library
-        // See: https://github.com/firebase/FirebaseUI-Android
         val options = FirebaseRecyclerOptions.Builder<FriendlyMessage>()
             .setQuery(messagesRef, FriendlyMessage::class.java)
             .build()
@@ -113,7 +103,6 @@ class MainActivity : AppCompatActivity() {
             db.reference.child(MESSAGES_CHILD).push().setValue(friendlyMessage)
             binding.messageEditText.setText("")
         }
-
         // When the image button is clicked, launch the image picker
         binding.addMessageImageView.setOnClickListener {
             openDocument.launch(arrayOf("image/*"))
@@ -132,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     public override fun onPause() {
-        adapter.stopListening()
+//        adapter.stopListening()
         super.onPause()
     }
 
